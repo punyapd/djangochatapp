@@ -1,0 +1,52 @@
+body{
+    background-color: aqua;
+    margin:auto;
+
+}
+.container{
+    width:45%;
+    background-color: aquamarine;
+    height:auto;
+    margin:auto;
+   
+   
+}
+
+.msg-content{
+    border:1px solid black;
+    
+}
+
+
+
+
+.form-control{
+    width:100%;
+    height:50px;
+}
+
+.time{
+    margin-top:5px;
+}
+
+ p{
+    margin-bottom:-1rem !important;
+}
+
+.user{
+    padding:5px;
+    color:red;
+    text-transform: capitalize;
+    margin-left:5px;
+}
+
+.typed-msg{
+    min-height: 50px;
+    margin-left: 10px;
+    background:skyblue;
+    border-radius: 20%;
+    
+    padding:10px;
+    justify-content: center;
+    overflow: hidden;
+}

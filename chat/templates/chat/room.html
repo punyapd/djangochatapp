@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'chat/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'chat/css/style.css' %}">
+
+    <title>Document</title>
+</head>
+<body>
+<center><H2 class = "mt -5 mb-5">CHAT WITH DJANGO</H2></center>
+  <div class="container">
+      <center><H5 class = "mt -5 mb-5">{{room}}</H5></center>
+      <div class="msg-content">
+          <div class="msg-box bg-white" id="display">
+           </div>
+        <form action="" class="mt-5" id="post-form">
+          {% csrf_token %}
+            <input type="hidden" name="username" id ="username" value={{username}}>
+            <input type="hidden" name="room_id" id ="room_id" value={{room_details.id}}>
+
+            <input type="text" name = "message" class="form-control mt-5" id = "message"><br><br>
+           <center><input type="submit" value="send" class="btn btn-warning"></center> 
+        </form>
+         
+      </div>
+  </div>
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</body>
+<script>
+   $(document).on('submit','#post-form',function(e){
+    e.preventDefault();
+
+    $.ajax({
+      type:'POST',
+      url:'/send',
+      data:{
+          username:$('#username').val(),
+          room_id:$('#room_id').val(),
+          message:$('#message').val(),
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+      },
+      success: function(data){
+        //alert(data)
+      }
+    });
+    document.getElementById('message').value = ''
+  });
+</script>
+
+<script>
+  $(document).ready(function(){
+
+    setInterval(function(){
+    $.ajax({
+        type: 'GET',
+        url : "/getmessages/{{room}}/",
+        success: function(response){
+            console.log(response);
+            $("#display").empty();
+            
+            for (var key in response.messages)
+            {
+                
+                var temp="<div class = 'msg-content'><strong class='user'>"+response.messages[key].msg_user+":</strong><br><p class='typed-msg'>" + response.messages[key].msg+"</p><br></div>";
+                $("#display").append(temp);
+            }
+        },
+        error: function(response){
+            alert('An error occured')
+        }
+    });
+},1000);
+})
+</script>
+
+</html>
+</script>
+</html>
